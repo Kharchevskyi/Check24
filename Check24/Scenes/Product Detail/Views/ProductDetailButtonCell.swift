@@ -28,8 +28,9 @@ class ProductDetailButtonCell: UITableViewCell {
         onTapAction?()
     }
 
-    func onTap(_ block: (() -> Void)?) {
+    func onTap(_ block: (() -> Void)?) -> ProductDetailButtonCell {
         self.onTapAction = block
+        return self
     }
 
 }

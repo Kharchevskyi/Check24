@@ -22,15 +22,6 @@ final class FavouriteCacheService {
     }
 
     func isFavourite(with id: Int) -> Bool {
-        guard let isFav = userDefaults.bool(forKey: key+"id") else { return false }
-        return isFav
+        return userDefaults.bool(forKey: key+"id")
     }
-}
-
-//guard var lastShownDates = userDefaults.object(forKey: Constants.UserDefaultsKeys.dateOfMissedEmailScreenShows) as? [String: Date] else {
-//    userDefaults.set([user.userId: date], forKey: Constants.UserDefaultsKeys.dateOfMissedEmailScreenShows)
-//    return
-//}
-//
-//lastShownDates[user.userId] = date
-//userDefaults.set(lastShownDates, forKey: Constants.UserDefaultsKeys.dateOfMissedEmailScreenShows)
+} 

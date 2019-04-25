@@ -20,7 +20,8 @@ struct ProductOverviewConfigurator {
         let interactor = ProductOverviewInteractor(
             output: presenter,
             api: NetworkingApi.default,
-            imageCache: ImageCacheImpl.shared
+            imageCache: ImageCacheImpl.shared,
+            favService: FavouriteCacheService()
         )
         viewController.output = interactor
         return viewController

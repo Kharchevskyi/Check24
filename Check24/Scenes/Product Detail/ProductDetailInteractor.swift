@@ -24,6 +24,7 @@ protocol ProductDetailInteractorOutput {
 final class ProductDetailInteractor {
     private let product: ProductOverviewViewModel
     private let output: ProductDetailInteractorOutput
+    private let favService: FavouriteCacheService = FavouriteCacheService()
 
     init(output: ProductDetailInteractorOutput, product: ProductOverviewViewModel) {
         self.output = output
@@ -37,6 +38,10 @@ extension ProductDetailInteractor: ProductDetailInteractorInput {
     }
 
     func addToFavourite() {
-
+        if favService.isFavourite(with: product.id) {
+            favService.addToFavourite(with: product.id)
+        } else {
+            favService.removeFromFavourite(with: product.id)
+        }
     }
 }

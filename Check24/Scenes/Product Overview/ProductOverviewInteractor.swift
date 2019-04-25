@@ -108,6 +108,7 @@ extension ProductOverviewInteractor: ProductOverviewInteractorInput {
                 let filtered = items.filter { $0.available }
                 output.update(state: .loaded(filtered))
             case .favorites:
+                // get all products which are favourite from service
                 break
                 //            let filtered = items.filter { $0.isFavorite }
                 //            output.update(state: .loaded(filtered))
