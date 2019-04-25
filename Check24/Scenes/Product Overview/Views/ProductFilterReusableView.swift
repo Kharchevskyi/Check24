@@ -10,9 +10,21 @@ import UIKit
 
 enum ProductFilterType: Int, CaseIterable {
     case all, available, favorites
+    var title: String {
+        switch self {
+        case .all: return "All"
+        case .available: return "Available"
+        case .favorites: return "Favorite"
+        }
+    }
+
 }
 
 struct ProductFilter {
+    static let allFilters = ProductFilterType
+        .allCases
+        .map { ProductFilter(title: $0.title, filterType: $0) }
+
     let title: String
     let filterType: ProductFilterType
 }
@@ -37,10 +49,12 @@ final class ProductFilterView: UIView {
     private func setupUI() {
         addSubview(stackView)
         stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
-        constrainToEdges(stackView, insets: UIEdgeInsets(top: 2, left: 8, bottom: 2, right: 8))
+        stackView.distribution = .fillEqually
+        stackView.spacing = 16
+        constrainToEdges(stackView, insets: UIEdgeInsets(top: 6, left: 32, bottom: 6, right: 32))
     }
 
+    @discardableResult
     func setup(with filters: [ProductFilter], onTap: TapCompletion?) -> ProductFilterView {
         self.filters = filters
         self.onTapCompletion = onTap
@@ -53,6 +67,9 @@ final class ProductFilterView: UIView {
             button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
             button.setTitleColor(.black, for: .normal)
             button.setTitle(filter.title, for: .normal)
+            button.layer.cornerRadius = 8
+            button.layer.borderWidth = 1
+            button.layer.borderColor = UIColor.white.cgColor
             stackView.addArrangedSubview(button)
             button.addTarget(self, action: #selector(onButtonTap(_:)), for: .touchUpInside)
         }

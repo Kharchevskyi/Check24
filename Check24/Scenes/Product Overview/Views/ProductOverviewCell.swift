@@ -29,5 +29,13 @@ final class ProductOverviewCell: UICollectionViewCell {
 
         return self
     }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        layer.borderColor = UIColor.gray.cgColor
+        layer.borderWidth = 1
+        layer.cornerRadius = 8
+    }
 }
 

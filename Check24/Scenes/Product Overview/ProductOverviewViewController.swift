@@ -22,7 +22,8 @@ protocol ProductOverviewViewControllerOutput {
 
 final class ProductOverviewViewController: UIViewController {
     enum LocalConstants {
-        static let filterHeight: CGFloat = 30
+        static let filterHeight: CGFloat = 40
+        static let insets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         static let minimumInteritemSpacing: CGFloat = 6
         static let cellHeight: CGFloat = 140
     }
@@ -98,8 +99,10 @@ extension ProductOverviewViewController {
 
     private func setupFilterView() {
         filterView.translatesAutoresizingMaskIntoConstraints = false
-        filterView.backgroundColor = .red
-        collectionView.backgroundColor = .blue
+        filterView.backgroundColor = .darkGray
+        filterView.setup(with: ProductFilter.allFilters) { filter in
+            print(filter)
+        }
     }
 
     private func setupNavigationController() {
@@ -155,7 +158,11 @@ extension ProductOverviewViewController: UICollectionViewDelegateFlowLayout {
 
         switch state {
         case .loaded:
-            let width = collectionView.frame.size.width - LocalConstants.minimumInteritemSpacing * 2
+            let width = collectionView.frame.size.width
+                - LocalConstants.minimumInteritemSpacing * 2
+                - LocalConstants.insets.left
+                - LocalConstants.insets.right
+
             return CGSize(
                 width: width,
                 height: LocalConstants.cellHeight
@@ -163,6 +170,10 @@ extension ProductOverviewViewController: UICollectionViewDelegateFlowLayout {
         default:
             return .zero
         }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return LocalConstants.insets
     }
 }
 
