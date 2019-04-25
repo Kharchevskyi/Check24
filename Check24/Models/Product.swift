@@ -27,7 +27,7 @@ struct Product: Codable {
     let imageURL: String
     let colorCode: String
     let available: Bool
-    let releaseDate: Int
+    let releaseDate: Double
     let description: String
     let longDescription: String
     let rating: Double

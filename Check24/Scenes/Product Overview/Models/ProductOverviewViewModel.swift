@@ -9,5 +9,10 @@
 import Foundation
 
 struct ProductOverviewViewModel {
-
+    let imageURL: String?
+    let title: NSAttributedString
+    let date: NSAttributedString
+    let description: NSAttributedString
+    let price: NSAttributedString
+    let rating: Double
 }

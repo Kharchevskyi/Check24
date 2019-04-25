@@ -10,5 +10,24 @@ import UIKit
 
 final class ProductOverviewCell: UICollectionViewCell {
 
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var ratingView: UIView!
+
+    @discardableResult
+    func setup(with viewModel: ProductOverviewViewModel) -> ProductOverviewCell {
+
+        imageView.backgroundColor = .red
+        nameLabel.attributedText = viewModel.title
+        dateLabel.attributedText = viewModel.date
+        descriptionLabel.attributedText = viewModel.description
+        priceLabel.attributedText = viewModel.price
+//        ratingView.attributedText = viewModel.rating
+
+        return self
+    }
 }
 

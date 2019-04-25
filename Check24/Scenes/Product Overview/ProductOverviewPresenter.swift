@@ -6,7 +6,7 @@
 //  Copyright © 2019 Anton Kharchevskyi. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 // MARK: - Protocols
 
@@ -50,7 +50,80 @@ extension ProductOverviewViewController.State {
 }
 
 extension ProductOverviewViewModel {
-    init(_ model: Product) {
 
+    init(_ model: Product) {
+        self.imageURL = model.imageURL
+        self.date = ProductOverviewViewModel.date(from: model.releaseDate)
+
+        let titleAttributes: [NSAttributedString.Key : Any] = [
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14),
+            NSAttributedString.Key.foregroundColor: UIColor.black
+        ]
+        let descriptionAttributes: [NSAttributedString.Key : Any] = [
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12),
+            NSAttributedString.Key.foregroundColor: UIColor.gray
+        ]
+
+
+        self.title = NSAttributedString(
+            string: model.name,
+            attributes: titleAttributes
+        )
+        self.description = NSAttributedString(
+            string: model.description,
+            attributes: descriptionAttributes
+        )
+
+        self.price = ProductOverviewViewModel.price(from: model.price)
+
+        self.rating = model.rating
     }
-} 
+
+    private static func date(from releaseDate: Double) -> NSAttributedString {
+        let dateFormatter = DateFormatter()
+        dateFormatter.calendar = Calendar.current
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        let dateString = dateFormatter.string(from: Date(timeIntervalSince1970: releaseDate))
+
+        let attributes: [NSAttributedString.Key : Any] = [
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 10),
+            NSAttributedString.Key.foregroundColor: UIColor.gray
+        ]
+        return NSAttributedString(string: dateString, attributes: attributes)
+    }
+
+    private static func price(from modelPrice: Price) -> NSAttributedString {
+        let priceTitleAttributes: [NSAttributedString.Key : Any] = [
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 12),
+            NSAttributedString.Key.foregroundColor: UIColor.black
+        ]
+
+        let priceAttributes: [NSAttributedString.Key : Any] = [
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12),
+            NSAttributedString.Key.foregroundColor: UIColor.gray
+        ]
+
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = Locale.current
+        formatter.currencyCode = modelPrice.currency
+        
+        let result = NSMutableAttributedString(
+            string: NSLocalizedString("price: ".capitalized, comment: ""),
+            attributes: priceTitleAttributes
+        )
+
+        let price = formatter.string(from: NSNumber(value: modelPrice.value))
+            ?? String(modelPrice.value) + modelPrice.currency
+
+        let priceString = NSAttributedString(
+            string: price,
+            attributes: priceAttributes
+        )
+
+        result.append(priceString)
+
+        return result
+    }
+}  

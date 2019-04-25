@@ -23,6 +23,8 @@ protocol ProductOverviewViewControllerOutput {
 final class ProductOverviewViewController: UIViewController {
     enum LocalConstants {
         static let filterHeight: CGFloat = 30
+        static let minimumInteritemSpacing: CGFloat = 6
+        static let cellHeight: CGFloat = 140
     }
 
     enum State {
@@ -83,6 +85,7 @@ extension ProductOverviewViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .white
         collectionView.addSubview(refreshControl)
+        collectionView.register(cellType: ProductOverviewCell.self)
 
         // refresh control
         refreshControl.addTarget(
@@ -126,11 +129,40 @@ extension ProductOverviewViewController {
 
 extension ProductOverviewViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        switch state {
+        case .loaded(let items): return items.count
+        default: return 0
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+        switch state {
+        case .loaded(let items):
+            guard let item = items[safe: indexPath.row] else {
+                fatalError("no cell provided")
+            }
+
+            return collectionView.dequeueReusableCell(ofType: ProductOverviewCell.self, at: indexPath) 
+                .setup(with: item)
+        default:
+            fatalError("no cell provided")
+        }
+    }
+}
+
+extension ProductOverviewViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        switch state {
+        case .loaded:
+            let width = collectionView.frame.size.width - LocalConstants.minimumInteritemSpacing * 2
+            return CGSize(
+                width: width,
+                height: LocalConstants.cellHeight
+            )
+        default:
+            return .zero
+        }
     }
 }
 
