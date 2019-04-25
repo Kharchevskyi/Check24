@@ -21,8 +21,12 @@ protocol ProductOverviewViewControllerOutput {
 // MARK: - Implementation
 
 final class ProductOverviewViewController: UIViewController {
+    enum LocalConstants {
+        static let filterHeight: CGFloat = 30
+    }
+
     enum State {
-        case idle, loading, loaded, failed
+        case idle, loading(Bool), loaded([ProductOverviewViewModel]), failed(String)
     }
 
     var output: ProductOverviewViewControllerOutput?
@@ -33,6 +37,7 @@ final class ProductOverviewViewController: UIViewController {
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout()
     )
+    private let filterView = ProductFilterView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,19 +58,45 @@ extension ProductOverviewViewController {
         view.backgroundColor = .white
 
         view.addSubview(collectionView)
+        view.addSubview(filterView)
+
+        setupCollectionView()
+        setupFilterView()
+
+        let guide = view.safeAreaLayoutGuide
+        let constraints: [NSLayoutConstraint] = [
+            filterView.topAnchor.constraint(equalTo: guide.topAnchor),
+            filterView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+            filterView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
+            filterView.heightAnchor.constraint(equalToConstant: LocalConstants.filterHeight),
+            collectionView.topAnchor.constraint(equalTo: filterView.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: guide.bottomAnchor)
+        ]
+        NSLayoutConstraint.activate(constraints)
+    }
+
+    private func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .white
         collectionView.addSubview(refreshControl)
-        collectionView.constraintsToEdges(to: view.safeAreaLayoutGuide)
 
+        // refresh control
         refreshControl.addTarget(
             self,
             action: #selector(refresh(_:)),
             for: .valueChanged
         )
         refreshControl.tintColor = .mainColor
+    }
+
+    private func setupFilterView() {
+        filterView.translatesAutoresizingMaskIntoConstraints = false
+        filterView.backgroundColor = .red
+        collectionView.backgroundColor = .blue
     }
 
     private func setupNavigationController() {
@@ -80,7 +111,9 @@ extension ProductOverviewViewController {
         ]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
     }
+}
 
+extension ProductOverviewViewController {
     @objc private func refresh(_ sender: UIRefreshControl) {
         output?.handle(action: .reload)
     }

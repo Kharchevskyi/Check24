@@ -11,3 +11,4 @@ import UIKit
 final class ProductOverviewCell: UICollectionViewCell {
 
 }
+

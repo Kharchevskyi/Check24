@@ -15,7 +15,7 @@ protocol ProductOverviewInteractorInput {
 }
 
 protocol ProductOverviewInteractorOutput {
-
+    func update(state newState: ProductOverviewInteractor.State)
 }
 
 // MARK: - Implementation
@@ -25,10 +25,24 @@ final class ProductOverviewInteractor {
         case setup, reload, dispose
     }
 
-    private let output: ProductOverviewInteractorOutput
+    enum State {
+        case idle
+        case loading(_ isInitial: Bool)
+        case loaded([Product])
+        case failed(APIError)
+    }
 
-    init(output: ProductOverviewInteractorOutput) {
+    private let output: ProductOverviewInteractorOutput
+    private let api: NetworkingApiType
+    private var state: State = .idle {
+        didSet {
+            output.update(state: state)
+        }
+    }
+    
+    init(output: ProductOverviewInteractorOutput, api: NetworkingApiType) {
         self.output = output
+        self.api = api
     }
 }
 
@@ -42,15 +56,28 @@ extension ProductOverviewInteractor: ProductOverviewInteractorInput {
     }
 
     private func setup() {
-        // perform any initial tasks here (i.e. data loading, passing existing data, etc.)
-        // and pass results to the output (i.e. `output.refreshUsers(with: users)`)
+        // perform any initial tasks
+        state = .loading(true)
+        getProducts(isInitial: true)
     }
 
     private func reload() {
-
+        state = .loading(false)
+        getProducts(isInitial: false)
     }
 
     private func dispose() {
-        
+        api.dispose()
+    }
+
+    private func getProducts(isInitial: Bool) {
+        api.getProducts(ProductsRequest()) { result in
+            switch result {
+            case .failure(let error):
+                self.state = .failed(error)
+            case .success(let items):
+                self.state = .loaded(items)
+            }
+        }
     }
 }

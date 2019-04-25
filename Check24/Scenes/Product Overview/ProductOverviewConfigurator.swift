@@ -17,7 +17,7 @@ struct ProductOverviewConfigurator {
         let viewController = ProductOverviewViewController()
         let router = ProductOverviewRouter(viewController: viewController)
         let presenter = ProductOverviewPresenter(output: viewController, router: router)
-        let interactor = ProductOverviewInteractor(output: presenter)
+        let interactor = ProductOverviewInteractor(output: presenter, api: NetworkingApi.default)
         viewController.output = interactor
         return viewController
     }

@@ -11,7 +11,7 @@ import Foundation
 // MARK: - Protocols
 
 protocol ProductOverviewPresenterInput: class {
-
+    func update(state newState: ProductOverviewInteractor.State)
 }
 
 protocol ProductOverviewPresenterOutput: class {
@@ -31,5 +31,26 @@ final class ProductOverviewPresenter {
 }
 
 extension ProductOverviewPresenter: ProductOverviewPresenterInput {
-
+    func update(state newState: ProductOverviewInteractor.State) {
+        output?.update(state: ProductOverviewViewController.State(newState))
+    }
 }
+
+// MARK: - Mapping
+
+extension ProductOverviewViewController.State {
+    init(_ interactorState: ProductOverviewInteractor.State) {
+        switch interactorState {
+        case .idle: self = .idle
+        case .loading(let isInitial): self = .loading(isInitial)
+        case .loaded(let products): self = .loaded(products.map(ProductOverviewViewModel.init))
+        case .failed(let error): self = .failed(error.localizedDescription) // TODO: provide descriptions for api errors
+        }
+    }
+}
+
+extension ProductOverviewViewModel {
+    init(_ model: Product) {
+
+    }
+} 
