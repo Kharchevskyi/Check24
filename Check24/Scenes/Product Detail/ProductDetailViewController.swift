@@ -16,6 +16,7 @@ protocol ProductDetailViewControllerInput {
 
 protocol ProductDetailViewControllerOutput {
     func setup()
+    func addToFavourite()
 }
 
 // MARK: - Implementation
@@ -60,6 +61,9 @@ class ProductDetailViewController: UITableViewController {
         case .shortDescription:
             return tableView.dequeueReusableCell(ofType: ProductDetailButtonCell.self, at: indexPath)
                 .setup(with: product)
+                .onTap { [weak self] in
+                    self?.output?.addToFavourite()
+                }
         case .description:
             return tableView.dequeueReusableCell(ofType: ProductDetailDescriptionCell.self, at: indexPath)
                 .setup(with: product)

@@ -12,11 +12,12 @@ class ProductDetailButtonCell: UITableViewCell {
 
     @IBOutlet weak var productDescriptionLabel: UILabel!
     @IBOutlet weak var productButton: UIButton!
+    private var onTapAction: (() -> Void)?
 
     func setup(with viewModel: ProductOverviewViewModel) -> ProductDetailButtonCell {
 
         productButton.backgroundColor = Constants.Colors.mainColor
-        productButton.setTitle("Buy", for: .normal)
+        productButton.setTitle("Add", for: .normal)
         productDescriptionLabel.attributedText = viewModel.description
         productDescriptionLabel.attributedText = viewModel.description
         
@@ -24,7 +25,11 @@ class ProductDetailButtonCell: UITableViewCell {
     }
 
     @IBAction func buttonAction(_ sender: Any) {
+        onTapAction?()
+    }
 
+    func onTap(_ block: (() -> Void)?) {
+        self.onTapAction = block
     }
 
 }

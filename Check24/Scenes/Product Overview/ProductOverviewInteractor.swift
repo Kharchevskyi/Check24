@@ -23,7 +23,7 @@ protocol ProductOverviewInteractorOutput {
 
 final class ProductOverviewInteractor {
     enum Action {
-        case setup, reload, dispose, proceedToDetails(Int)
+        case setup, reload, dispose, proceedToDetails(Int), filter(ProductFilterType)
     }
 
     enum State {
@@ -36,17 +36,19 @@ final class ProductOverviewInteractor {
     private let output: ProductOverviewInteractorOutput
     private let api: NetworkingApiType
     private let imageCache: ImageCache
-
+    private let favService: FavouriteCacheService
+    private let queue = DispatchQueue(label: "com.interactor.queue", qos: DispatchQoS.background)
     private var state: State = .idle {
         didSet {
             output.update(state: state)
         }
     }
     
-    init(output: ProductOverviewInteractorOutput, api: NetworkingApiType, imageCache: ImageCache) {
+    init(output: ProductOverviewInteractorOutput, api: NetworkingApiType, imageCache: ImageCache, favService: FavouriteCacheService) {
         self.output = output
         self.api = api
         self.imageCache = imageCache
+        self.favService = favService
     }
 }
 
@@ -57,6 +59,7 @@ extension ProductOverviewInteractor: ProductOverviewInteractorInput {
         case .reload: reload()
         case .dispose: dispose()
         case .proceedToDetails(let id): procceToDetail(with: id)
+        case .filter(let filter): filterProducts(with: filter)
         }
     }
 
@@ -92,5 +95,23 @@ extension ProductOverviewInteractor: ProductOverviewInteractorInput {
         guard let product = items.first(where: { $0.id == id }) else { return }
 
         output.proceed(to: ProductOverviewRouter.Scene.productDetail(ProductOverviewViewModel(product)))
+    }
+
+    private func filterProducts(with filter: ProductFilterType) {
+        guard case let .loaded(items) = state else { return }
+
+        queue.sync {
+            switch filter {
+            case .all:
+                output.update(state: .loaded(items))
+            case .available:
+                let filtered = items.filter { $0.available }
+                output.update(state: .loaded(filtered))
+            case .favorites:
+                break
+                //            let filtered = items.filter { $0.isFavorite }
+                //            output.update(state: .loaded(filtered))
+            }
+        }
     }
 }

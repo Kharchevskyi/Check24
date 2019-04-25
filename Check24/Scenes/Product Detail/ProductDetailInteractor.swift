@@ -12,6 +12,7 @@ import Foundation
 
 protocol ProductDetailInteractorInput {
     func setup()
+    func addToFavourite()
 }
 
 protocol ProductDetailInteractorOutput {
@@ -33,5 +34,9 @@ final class ProductDetailInteractor {
 extension ProductDetailInteractor: ProductDetailInteractorInput {
     func setup() {
         output.update(with: product)
+    }
+
+    func addToFavourite() {
+
     }
 }

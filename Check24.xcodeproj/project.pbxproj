@@ -40,6 +40,7 @@
 		9F1A9B802271D7E8004DD56D /* ProductDetailButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F1A9B7E2271D7E8004DD56D /* ProductDetailButtonCell.xib */; };
 		9F1A9B842271D816004DD56D /* ProductDetailDescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1A9B822271D816004DD56D /* ProductDetailDescriptionCell.swift */; };
 		9F1A9B852271D816004DD56D /* ProductDetailDescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F1A9B832271D816004DD56D /* ProductDetailDescriptionCell.xib */; };
+		9F1A9B872271E8B2004DD56D /* FavouriteCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1A9B862271E8B2004DD56D /* FavouriteCacheService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +79,7 @@
 		9F1A9B7E2271D7E8004DD56D /* ProductDetailButtonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductDetailButtonCell.xib; sourceTree = "<group>"; };
 		9F1A9B822271D816004DD56D /* ProductDetailDescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailDescriptionCell.swift; sourceTree = "<group>"; };
 		9F1A9B832271D816004DD56D /* ProductDetailDescriptionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductDetailDescriptionCell.xib; sourceTree = "<group>"; };
+		9F1A9B862271E8B2004DD56D /* FavouriteCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteCacheService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 			children = (
 				9F1A9B622271BE8A004DD56D /* Networking */,
 				9F1A9B682271D1F3004DD56D /* ImageCache.swift */,
+				9F1A9B862271E8B2004DD56D /* FavouriteCacheService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				9F1A9B762271D614004DD56D /* ProductDetailPresenter.swift in Sources */,
 				9F1A9B842271D816004DD56D /* ProductDetailDescriptionCell.swift in Sources */,
 				9F1A9B5D2271BC26004DD56D /* ApiEndpoint.swift in Sources */,
+				9F1A9B872271E8B2004DD56D /* FavouriteCacheService.swift in Sources */,
 				9F1A9B752271D614004DD56D /* ProductDetailInteractor.swift in Sources */,
 				9F1A9B452271A288004DD56D /* ProductOverviewViewController.swift in Sources */,
 				9F1A9B472271A288004DD56D /* ProductOverviewInteractor.swift in Sources */,

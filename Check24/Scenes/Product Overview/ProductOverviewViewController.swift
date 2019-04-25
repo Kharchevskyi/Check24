@@ -100,8 +100,8 @@ extension ProductOverviewViewController {
     private func setupFilterView() {
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.backgroundColor = .darkGray
-        filterView.setup(with: ProductFilter.allFilters) { filter in
-            print(filter)
+        filterView.setup(with: ProductFilter.allFilters) { [weak self] filter in
+            self?.output?.handle(action: .filter(filter))
         }
     }
 
