@@ -14,6 +14,12 @@ enum Constants {
     }
 
     enum Colors {
-        static let mainColor = UIColor.red
+        static let mainColor = UIColor.mainColor
+    }
+}
+
+extension UIColor {
+    static var mainColor: UIColor {
+        return .blue
     }
 }

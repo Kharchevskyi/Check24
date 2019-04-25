@@ -11,7 +11,7 @@ import UIKit
 // MARK: - Protocols
 
 protocol ProductOverviewViewControllerInput {
-
+    func update(state newState: ProductOverviewViewController.State)
 }
 
 protocol ProductOverviewViewControllerOutput {
@@ -21,8 +21,14 @@ protocol ProductOverviewViewControllerOutput {
 // MARK: - Implementation
 
 final class ProductOverviewViewController: UIViewController {
+    enum State {
+        case idle, loading, loaded, failed
+    }
+
     var output: ProductOverviewViewControllerOutput?
 
+    private var state = State.idle
+    private let refreshControl = UIRefreshControl()
     private let collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout()
@@ -45,13 +51,21 @@ final class ProductOverviewViewController: UIViewController {
 extension ProductOverviewViewController {
     private func setupUI() {
         view.backgroundColor = .white
+
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .white
-
+        collectionView.addSubview(refreshControl)
         collectionView.constraintsToEdges(to: view.safeAreaLayoutGuide)
+
+        refreshControl.addTarget(
+            self,
+            action: #selector(refresh(_:)),
+            for: .valueChanged
+        )
+        refreshControl.tintColor = .mainColor
     }
 
     private func setupNavigationController() {
@@ -66,6 +80,15 @@ extension ProductOverviewViewController {
         ]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
     }
+
+    @objc private func refresh(_ sender: UIRefreshControl) {
+        output?.handle(action: .reload)
+    }
+
+    private func endRefreshing() {
+        guard refreshControl.isRefreshing else { return }
+        refreshControl.endRefreshing()
+    }
 }
 
 extension ProductOverviewViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -79,5 +102,13 @@ extension ProductOverviewViewController: UICollectionViewDelegate, UICollectionV
 }
 
 extension ProductOverviewViewController: ProductOverviewViewControllerInput {
+    func update(state newState: ProductOverviewViewController.State) {
+        // TODO: - probably better to write some state machine for this
+        state = newState
 
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+            self.endRefreshing()
+        }
+    }
 }

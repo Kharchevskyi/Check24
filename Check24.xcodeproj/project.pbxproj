@@ -18,6 +18,7 @@
 		9F1A9B492271A288004DD56D /* ProductOverviewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1A9B432271A288004DD56D /* ProductOverviewRouter.swift */; };
 		9F1A9B4D2271A30D004DD56D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1A9B4C2271A30D004DD56D /* Constants.swift */; };
 		9F1A9B502271A371004DD56D /* Extensions .swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1A9B4F2271A371004DD56D /* Extensions .swift */; };
+		9F1A9B522271AAA9004DD56D /* ProductOverviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1A9B512271AAA9004DD56D /* ProductOverviewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		9F1A9B432271A288004DD56D /* ProductOverviewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductOverviewRouter.swift; sourceTree = "<group>"; };
 		9F1A9B4C2271A30D004DD56D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9F1A9B4F2271A371004DD56D /* Extensions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions .swift"; sourceTree = "<group>"; };
+		9F1A9B512271AAA9004DD56D /* ProductOverviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductOverviewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 				9F1A9B412271A288004DD56D /* ProductOverviewInteractor.swift */,
 				9F1A9B422271A288004DD56D /* ProductOverviewPresenter.swift */,
 				9F1A9B432271A288004DD56D /* ProductOverviewRouter.swift */,
+				9F1A9B512271AAA9004DD56D /* ProductOverviewCell.swift */,
 			);
 			path = "Product Overview";
 			sourceTree = "<group>";
@@ -191,6 +194,7 @@
 				9F1A9B472271A288004DD56D /* ProductOverviewInteractor.swift in Sources */,
 				9F1A9B502271A371004DD56D /* Extensions .swift in Sources */,
 				9F1A9B4D2271A30D004DD56D /* Constants.swift in Sources */,
+				9F1A9B522271AAA9004DD56D /* ProductOverviewCell.swift in Sources */,
 				9F1A9B2C2271A0BC004DD56D /* AppDelegate.swift in Sources */,
 				9F1A9B482271A288004DD56D /* ProductOverviewPresenter.swift in Sources */,
 			);

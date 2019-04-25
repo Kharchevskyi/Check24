@@ -15,7 +15,7 @@ protocol ProductOverviewPresenterInput: class {
 }
 
 protocol ProductOverviewPresenterOutput: class {
-
+    func update(state newState: ProductOverviewViewController.State)
 }
 
 // MARK: - Implementation
