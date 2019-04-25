@@ -20,22 +20,34 @@ final class ProductOverviewCell: UICollectionViewCell {
     @discardableResult
     func setup(with viewModel: ProductOverviewViewModel) -> ProductOverviewCell {
 
-        imageView.backgroundColor = .red
+        backgroundColor = viewModel.backgroundColor
+        imageView.loadImageAsync(with: viewModel.imageURL)
         nameLabel.attributedText = viewModel.title
         dateLabel.attributedText = viewModel.date
         descriptionLabel.attributedText = viewModel.description
         priceLabel.attributedText = viewModel.price
-//        ratingView.attributedText = viewModel.rating
+
+        // TODO: - ratingView
+        // ratingView
 
         return self
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        imageView.image = nil
+        nameLabel.attributedText = nil
+        dateLabel.attributedText = nil
+        descriptionLabel.attributedText = nil
+        priceLabel.attributedText = nil
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
 
         layer.borderColor = UIColor.gray.cgColor
-        layer.borderWidth = 1
-        layer.cornerRadius = 8
+        layer.borderWidth = 2
     }
 }
 

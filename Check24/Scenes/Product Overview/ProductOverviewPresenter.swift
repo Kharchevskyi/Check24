@@ -12,6 +12,7 @@ import UIKit
 
 protocol ProductOverviewPresenterInput: class {
     func update(state newState: ProductOverviewInteractor.State)
+    func proceed(to scene: ProductOverviewRouter.Scene)
 }
 
 protocol ProductOverviewPresenterOutput: class {
@@ -34,6 +35,10 @@ extension ProductOverviewPresenter: ProductOverviewPresenterInput {
     func update(state newState: ProductOverviewInteractor.State) {
         output?.update(state: ProductOverviewViewController.State(newState))
     }
+
+    func proceed(to scene: ProductOverviewRouter.Scene) {
+        router.show(scene: scene)
+    }
 }
 
 // MARK: - Mapping
@@ -49,12 +54,11 @@ extension ProductOverviewViewController.State {
     }
 }
 
-extension ProductOverviewViewModel {
-
+extension ProductOverviewViewModel { 
     init(_ model: Product) {
+        self.id = model.id
         self.imageURL = model.imageURL
         self.date = ProductOverviewViewModel.date(from: model.releaseDate)
-
         let titleAttributes: [NSAttributedString.Key : Any] = [
             NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14),
             NSAttributedString.Key.foregroundColor: UIColor.black
@@ -64,19 +68,24 @@ extension ProductOverviewViewModel {
             NSAttributedString.Key.foregroundColor: UIColor.gray
         ]
 
+        self.longDescription = NSAttributedString(
+            string: model.longDescription,
+            attributes: descriptionAttributes
+        )
 
         self.title = NSAttributedString(
             string: model.name,
             attributes: titleAttributes
         )
+        
         self.description = NSAttributedString(
             string: model.description,
             attributes: descriptionAttributes
         )
-
         self.price = ProductOverviewViewModel.price(from: model.price)
-
         self.rating = model.rating
+        self.backgroundColor = UIColor.hexColor(model.colorCode)
+        self.isAvailable = model.available
     }
 
     private static func date(from releaseDate: Double) -> NSAttributedString {
@@ -126,4 +135,5 @@ extension ProductOverviewViewModel {
 
         return result
     }
-}  
+
+}

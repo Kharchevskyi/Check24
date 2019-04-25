@@ -11,12 +11,16 @@ import UIKit
 // MARK: - Protocol
 
 protocol ProductOverviewRouting {
-    
+    func show(scene: ProductOverviewRouter.Scene)
 }
 
 // MARK: - Implementation
 
 final class ProductOverviewRouter {
+    enum Scene {
+        case productDetail(ProductOverviewViewModel)
+    }
+
     private weak var viewController: ProductOverviewViewController?
 
     init(viewController: ProductOverviewViewController) {
@@ -25,5 +29,13 @@ final class ProductOverviewRouter {
 }
 
 extension ProductOverviewRouter: ProductOverviewRouting {
-    
+    func show(scene: ProductOverviewRouter.Scene) {
+        switch scene {
+        case .productDetail(let product):
+            DispatchQueue.main.async {
+                let scene = ProductDetailConfigurator.scene(with: product)
+                self.viewController?.navigationController?.pushViewController(scene, animated: true)
+            }
+        }
+    }
 }

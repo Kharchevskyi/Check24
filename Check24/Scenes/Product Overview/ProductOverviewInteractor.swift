@@ -16,13 +16,14 @@ protocol ProductOverviewInteractorInput {
 
 protocol ProductOverviewInteractorOutput {
     func update(state newState: ProductOverviewInteractor.State)
+    func proceed(to scene: ProductOverviewRouter.Scene)
 }
 
 // MARK: - Implementation
 
 final class ProductOverviewInteractor {
     enum Action {
-        case setup, reload, dispose
+        case setup, reload, dispose, proceedToDetails(Int)
     }
 
     enum State {
@@ -34,15 +35,18 @@ final class ProductOverviewInteractor {
 
     private let output: ProductOverviewInteractorOutput
     private let api: NetworkingApiType
+    private let imageCache: ImageCache
+
     private var state: State = .idle {
         didSet {
             output.update(state: state)
         }
     }
     
-    init(output: ProductOverviewInteractorOutput, api: NetworkingApiType) {
+    init(output: ProductOverviewInteractorOutput, api: NetworkingApiType, imageCache: ImageCache) {
         self.output = output
         self.api = api
+        self.imageCache = imageCache
     }
 }
 
@@ -52,6 +56,7 @@ extension ProductOverviewInteractor: ProductOverviewInteractorInput {
         case .setup: setup()
         case .reload: reload()
         case .dispose: dispose()
+        case .proceedToDetails(let id): procceToDetail(with: id)
         }
     }
 
@@ -68,6 +73,7 @@ extension ProductOverviewInteractor: ProductOverviewInteractorInput {
 
     private func dispose() {
         api.dispose()
+        imageCache.clear()
     }
 
     private func getProducts(isInitial: Bool) {
@@ -79,5 +85,12 @@ extension ProductOverviewInteractor: ProductOverviewInteractorInput {
                 self.state = .loaded(items)
             }
         }
+    }
+
+    private func procceToDetail(with id: Int) {
+        guard case let .loaded(items) = state else { return }
+        guard let product = items.first(where: { $0.id == id }) else { return }
+
+        output.proceed(to: ProductOverviewRouter.Scene.productDetail(ProductOverviewViewModel(product)))
     }
 }

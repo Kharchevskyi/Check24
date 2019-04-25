@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="161" id="KGk-i7-Jjw" customClass="ProductDetailButtonCell" customModule="Check24" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="424" height="161"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="424" height="160.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfl-09-WaL">
+                        <rect key="frame" x="16" y="8" width="392" height="88.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qvN-dd-MYC">
+                        <rect key="frame" x="16" y="112.5" width="392" height="32"/>
+                        <color key="backgroundColor" red="0.42091219190000001" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="32" id="8qY-3D-Cuy"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                        <state key="normal" title="Button">
+                            <color key="titleColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="buttonAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ifd-Rh-ClD"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="qvN-dd-MYC" firstAttribute="top" secondItem="zfl-09-WaL" secondAttribute="bottom" constant="16" id="1ux-bf-C2o"/>
+                    <constraint firstItem="zfl-09-WaL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="5PD-Ji-IFN"/>
+                    <constraint firstItem="qvN-dd-MYC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="IAR-7i-on9"/>
+                    <constraint firstAttribute="bottom" secondItem="qvN-dd-MYC" secondAttribute="bottom" constant="16" id="hDA-oO-jWO"/>
+                    <constraint firstItem="zfl-09-WaL" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="ha6-Vl-scg"/>
+                    <constraint firstAttribute="trailing" secondItem="zfl-09-WaL" secondAttribute="trailing" constant="16" id="rXT-dP-B7L"/>
+                    <constraint firstAttribute="trailing" secondItem="qvN-dd-MYC" secondAttribute="trailing" constant="16" id="tk0-OB-LG9"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="productButton" destination="qvN-dd-MYC" id="Se4-jU-jlK"/>
+                <outlet property="productDescriptionLabel" destination="zfl-09-WaL" id="aOL-ci-KAq"/>
+            </connections>
+            <point key="canvasLocation" x="220.80000000000001" y="162.3688155922039"/>
+        </tableViewCell>
+    </objects>
+</document>

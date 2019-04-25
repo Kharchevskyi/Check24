@@ -151,6 +151,13 @@ extension ProductOverviewViewController: UICollectionViewDelegate, UICollectionV
             fatalError("no cell provided")
         }
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard case let .loaded(products) = state,
+            let id = products[safe: indexPath.row]?.id
+        else { return }
+        output?.handle(action: .proceedToDetails(id))
+    }
 }
 
 extension ProductOverviewViewController: UICollectionViewDelegateFlowLayout {
